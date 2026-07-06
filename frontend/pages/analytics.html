@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Analytics Dashboard - MediDoc</title>
+<link rel="stylesheet" href="../css/dashboard.css" />
+<link rel="stylesheet" href="../css/analytics.css" />
+<!-- Chart.js from CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+</head>
+<body>
+
+<div class="dash-layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">MediDoc</div>
+      <div class="sidebar-role">Analytics</div>
+    </div>
+    <div class="sidebar-menu">
+      <div class="smenu-item active" data-section="overview" onclick="showSection('overview')">Overview</div>
+      <div class="smenu-item" data-section="blood" onclick="showSection('blood')">Blood Analytics</div>
+      <div class="smenu-item" data-section="beds" onclick="showSection('beds')">Bed Analytics</div>
+      <div class="smenu-item logout-item" onclick="logout()">Logout</div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="dash-main">
+    <div class="dash-topbar">
+      <div class="topbar-title" id="page-title">Hospital Analytics</div>
+      <div class="topbar-right">
+        <span class="topbar-date" id="today-date"></span>
+        <div class="avatar" id="analytics-avatar">--</div>
+      </div>
+    </div>
+
+    <div class="dash-content">
+
+      <!-- ===================== OVERVIEW SECTION ===================== -->
+      <div class="section active" id="section-overview">
+
+        <!-- STAT CARDS ROW -->
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-label">Total Patients</div>
+            <div class="stat-value" id="stat-patients">--</div>
+            <div class="stat-badge" style="background:#eaf3de;color:#3b6d11;">Registered</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Active Doctors</div>
+            <div class="stat-value" id="stat-doctors">--</div>
+            <div class="stat-badge" style="background:#e6f1fb;color:#0c447c;">On duty</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Beds Available</div>
+            <div class="stat-value" id="stat-beds">--</div>
+            <div class="stat-badge" style="background:#eaf3de;color:#3b6d11;">of <span id="stat-total-beds">--</span></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Total Appointments</div>
+            <div class="stat-value" id="stat-appts">--</div>
+            <div class="stat-badge" style="background:#e6f1fb;color:#0c447c;">All time</div>
+          </div>
+        </div>
+
+        <!-- CHARTS ROW 1 -->
+        <div class="charts-row">
+          <div class="chart-card">
+            <div class="chart-title">Bed Occupancy</div>
+            <div class="chart-wrap">
+              <canvas id="bedChart"></canvas>
+            </div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Blood Inventory Levels</div>
+            <div class="chart-wrap">
+              <canvas id="bloodChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- CHARTS ROW 2 -->
+        <div class="charts-row">
+          <div class="chart-card wide">
+            <div class="chart-title">Patient Registration Trend (Last 7 Days — Simulated)</div>
+            <div class="chart-wrap">
+              <canvas id="patientTrendChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ===================== BLOOD ANALYTICS SECTION ===================== -->
+      <div class="section" id="section-blood">
+        <div class="card">
+          <div class="card-title"><span>Blood Group Inventory — Detailed</span></div>
+          <table class="data-table" id="blood-detail-table">
+            <thead><tr><th>Blood Group</th><th>Units Available</th><th>Units Reserved</th><th>Status</th></tr></thead>
+            <tbody><tr><td colspan="4" class="empty-row">Loading...</td></tr></tbody>
+          </table>
+        </div>
+        <div class="chart-card" style="margin-top:16px;">
+          <div class="chart-title">Blood Group Distribution</div>
+          <div class="chart-wrap">
+            <canvas id="bloodDetailChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================== BED ANALYTICS SECTION ===================== -->
+      <div class="section" id="section-beds">
+        <div class="stats-row" style="grid-template-columns:repeat(3,1fr);">
+          <div class="stat-card">
+            <div class="stat-label">Available Beds</div>
+            <div class="stat-value" id="bed-available">--</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Occupied Beds</div>
+            <div class="stat-value" id="bed-occupied" style="color:#e24b4a;">--</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Under Maintenance</div>
+            <div class="stat-value" id="bed-maintenance" style="color:#854f0b;">--</div>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Bed Status Distribution</div>
+          <div class="chart-wrap" style="max-width:400px;margin:0 auto;">
+            <canvas id="bedDetailChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Loading overlay -->
+<div class="loading-overlay" id="loading-overlay" style="display:none;">
+  <div class="spinner"></div>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/utils.js"></script>
+<script src="../js/analytics.js"></script>
+</body>
+</html>

@@ -1,0 +1,535 @@
+/* ==========================================================
+   MediDoc - Shared Dashboard Styles
+   Used by: patient-dashboard, doctor-dashboard, admin-dashboard,
+            receptionist-dashboard, blood-bank, beds, pharmacy,
+            ambulance, alerts, analytics
+   ========================================================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f1f3f6;
+  color: #1a1a1a;
+  font-size: 14px;
+}
+
+/* ===================== LAYOUT ===================== */
+.dash-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 220px;
+  background: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  padding: 18px 18px 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.sidebar-logo {
+  font-size: 18px;
+  font-weight: 700;
+  color: #185fa5;
+}
+
+.sidebar-role {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-top: 2px;
+}
+
+.sidebar-menu {
+  padding: 10px 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.smenu-item {
+  padding: 11px 18px;
+  font-size: 13.5px;
+  color: #4b5563;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: background 0.15s;
+}
+
+.smenu-item:hover {
+  background: #f1f3f6;
+}
+
+.smenu-item.active {
+  background: #e6f1fb;
+  color: #185fa5;
+  border-left-color: #185fa5;
+  font-weight: 600;
+}
+
+.logout-item {
+  margin-top: auto;
+  color: #a32d2d;
+  border-top: 1px solid #e5e7eb;
+}
+
+.logout-item:hover {
+  background: #fcebeb;
+}
+
+.dash-main {
+  flex: 1;
+  overflow-y: auto;
+  min-width: 0;
+}
+
+.dash-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.topbar-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.topbar-date {
+  font-size: 12.5px;
+  color: #9ca3af;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #e6f1fb;
+  color: #185fa5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.dash-content {
+  padding: 22px 24px;
+  max-width: 1100px;
+}
+
+/* ===================== SECTIONS (tab content) ===================== */
+.section {
+  display: none;
+}
+
+.section.active {
+  display: block;
+}
+
+/* ===================== HERO ===================== */
+.hero {
+  background: linear-gradient(135deg, #042c53, #185fa5);
+  border-radius: 14px;
+  padding: 24px;
+  color: #fff;
+  margin-bottom: 18px;
+}
+
+.hero-greeting {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.65);
+  margin-bottom: 4px;
+}
+
+.hero-name {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.hero-id {
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.55);
+  margin-top: 6px;
+}
+
+/* ===================== ACTION CARDS ===================== */
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.action-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 18px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: box-shadow 0.15s, transform 0.1s;
+}
+
+.action-card:hover {
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+}
+
+.action-icon {
+  font-size: 26px;
+  margin-bottom: 6px;
+}
+
+.action-label {
+  font-size: 12.5px;
+  color: #4b5563;
+  font-weight: 500;
+}
+
+/* ===================== CARDS ===================== */
+.card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+}
+
+.card-title {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-link {
+  font-size: 12.5px;
+  color: #185fa5;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+/* ===================== PATIENT INFO GRID ===================== */
+.pcard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.pfield {
+  font-size: 13px;
+}
+
+.pfield-label {
+  color: #9ca3af;
+  font-size: 11.5px;
+  margin-bottom: 3px;
+}
+
+.pfield-value {
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+/* ===================== TAGS / PILLS ===================== */
+.tag {
+  display: inline-block;
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.tag-blood { background: #fcebeb; color: #a32d2d; }
+.tag-risk-low { background: #eaf3de; color: #3b6d11; }
+.tag-risk-medium { background: #faeeda; color: #854f0b; }
+.tag-risk-high { background: #fcebeb; color: #791f1f; }
+
+.status-pill {
+  display: inline-block;
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.pill-green { background: #eaf3de; color: #3b6d11; }
+.pill-amber { background: #faeeda; color: #854f0b; }
+.pill-blue { background: #e6f1fb; color: #0c447c; }
+.pill-red { background: #fcebeb; color: #791f1f; }
+.pill-gray { background: #f1f3f6; color: #6b7280; }
+
+/* ===================== TABLE ===================== */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.data-table th {
+  text-align: left;
+  padding: 9px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #9ca3af;
+  border-bottom: 1px solid #e5e7eb;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.data-table td {
+  padding: 10px 10px;
+  border-bottom: 1px solid #f1f3f6;
+  color: #1a1a1a;
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.empty-row {
+  text-align: center;
+  color: #9ca3af;
+  padding: 20px 10px !important;
+}
+
+/* ===================== FORMS ===================== */
+.form-row-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.form-group {
+  margin-bottom: 14px;
+}
+
+.form-group label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #4b5563;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 9px 11px;
+  font-size: 13.5px;
+  border: 1.5px solid #e0e3e8;
+  border-radius: 8px;
+  background: #fff;
+  color: #1a1a1a;
+  outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #185fa5;
+}
+
+.btn-primary {
+  padding: 10px 20px;
+  background: #185fa5;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+}
+
+.btn-primary:hover {
+  background: #0c447c;
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  padding: 10px 20px;
+  background: #fff;
+  color: #4b5563;
+  border: 1.5px solid #e0e3e8;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-small {
+  padding: 6px 12px;
+  font-size: 12px;
+  border-radius: 6px;
+  border: 1.5px solid #e0e3e8;
+  background: #fff;
+  color: #4b5563;
+  cursor: pointer;
+}
+
+.btn-small.primary {
+  background: #185fa5;
+  color: #fff;
+  border-color: #185fa5;
+}
+
+/* ===================== MESSAGES ===================== */
+.form-msg {
+  font-size: 12.5px;
+  padding: 9px 12px;
+  border-radius: 7px;
+  margin: 4px 0 12px;
+  display: none;
+  line-height: 1.5;
+}
+
+.form-msg.show { display: block; }
+.form-msg.error { background: #fcebeb; color: #791f1f; border: 1px solid #f7c1c1; }
+.form-msg.success { background: #eaf3de; color: #3b6d11; border: 1px solid #c0dd97; }
+.form-msg.info { background: #e6f1fb; color: #0c447c; border: 1px solid #b5d4f4; }
+
+/* ===================== STAT CARDS (used by admin/blood-bank/beds) ===================== */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.stat-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.stat-label {
+  font-size: 11.5px;
+  color: #9ca3af;
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.stat-badge {
+  display: inline-block;
+  font-size: 10.5px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  margin-top: 5px;
+  font-weight: 600;
+}
+
+/* ===================== MODAL ===================== */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-box {
+  background: #fff;
+  border-radius: 14px;
+  padding: 22px;
+  width: 100%;
+  max-width: 420px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #1a1a1a;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.modal-actions .btn-secondary,
+.modal-actions .btn-primary {
+  flex: 1;
+  width: auto;
+}
+
+/* ===================== LOADING ===================== */
+.loading-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(255,255,255,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.spinner {
+  width: 42px; height: 42px;
+  border: 4px solid #e0e3e8;
+  border-top-color: #185fa5;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 900px) {
+  .action-grid { grid-template-columns: repeat(2, 1fr); }
+  .pcard-grid { grid-template-columns: repeat(2, 1fr); }
+  .form-row-3 { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .sidebar { width: 64px; }
+  .sidebar-header, .smenu-item { text-align: center; }
+  .sidebar-logo, .sidebar-role { display: none; }
+  .smenu-item { font-size: 0; padding: 14px 0; }
+  .action-grid { grid-template-columns: repeat(2, 1fr); }
+}

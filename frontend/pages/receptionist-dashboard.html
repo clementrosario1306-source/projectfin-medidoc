@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Receptionist Dashboard - MediDoc</title>
+<link rel="stylesheet" href="../css/dashboard.css" />
+</head>
+<body>
+
+<div class="dash-layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">MediDoc</div>
+      <div class="sidebar-role">Receptionist</div>
+    </div>
+    <div class="sidebar-menu">
+      <div class="smenu-item active" data-section="register" onclick="showSection('register')">Register Patient</div>
+      <div class="smenu-item" data-section="book" onclick="showSection('book')">Book Appointment</div>
+      <div class="smenu-item" data-section="today" onclick="showSection('today')">Today's Appointments</div>
+      <div class="smenu-item logout-item" onclick="logout()">Logout</div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="dash-main">
+    <div class="dash-topbar">
+      <div class="topbar-title" id="page-title">Register New Patient</div>
+      <div class="topbar-right">
+        <span class="topbar-date" id="today-date"></span>
+        <div class="avatar" id="rec-avatar">--</div>
+      </div>
+    </div>
+
+    <div class="dash-content">
+
+      <!-- ===================== REGISTER PATIENT SECTION ===================== -->
+      <div class="section active" id="section-register">
+        <div class="card">
+          <div class="card-title"><span>Walk-in Patient Registration</span></div>
+
+          <div class="form-group">
+            <label>Full Name *</label>
+            <input type="text" id="r-fullname" placeholder="Enter patient's full name" />
+          </div>
+
+          <div class="form-row-3">
+            <div class="form-group">
+              <label>Age *</label>
+              <input type="number" id="r-age" placeholder="Age" min="0" max="120" />
+            </div>
+            <div class="form-group">
+              <label>Gender *</label>
+              <select id="r-gender">
+                <option value="">Select</option>
+                <option value="MALE">Male</option>
+                <option value="FEMALE">Female</option>
+                <option value="OTHER">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Blood Group</label>
+              <select id="r-blood-group">
+                <option value="">Select (optional)</option>
+                <option value="A_POSITIVE">A+</option>
+                <option value="A_NEGATIVE">A-</option>
+                <option value="B_POSITIVE">B+</option>
+                <option value="B_NEGATIVE">B-</option>
+                <option value="O_POSITIVE">O+</option>
+                <option value="O_NEGATIVE">O-</option>
+                <option value="AB_POSITIVE">AB+</option>
+                <option value="AB_NEGATIVE">AB-</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row-3">
+            <div class="form-group">
+              <label>Mobile Number *</label>
+              <input type="text" id="r-mobile" placeholder="10-digit mobile number" maxlength="10" />
+            </div>
+            <div class="form-group">
+              <label>Emergency Contact Name</label>
+              <input type="text" id="r-emergency-name" placeholder="Name" />
+            </div>
+            <div class="form-group">
+              <label>Emergency Contact Phone</label>
+              <input type="text" id="r-emergency-phone" placeholder="Phone number" maxlength="10" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Address</label>
+            <input type="text" id="r-address" placeholder="City, State" />
+          </div>
+
+          <div class="form-msg" id="register-msg"></div>
+
+          <button class="btn-primary" style="max-width:240px;" onclick="registerPatient()">Register Patient</button>
+        </div>
+
+        <div class="card" id="generated-id-card" style="display:none;">
+          <div class="card-title"><span>Registration Successful</span></div>
+          <p style="font-size:13px;color:#6b7280;margin-bottom:10px;">Share this Unique Health ID with the patient. They will need it (along with their mobile number) to log in.</p>
+          <div class="unique-id-display" id="generated-id-display">MDID--</div>
+        </div>
+      </div>
+
+      <!-- ===================== BOOK APPOINTMENT SECTION ===================== -->
+      <div class="section" id="section-book">
+        <div class="card">
+          <div class="card-title"><span>Book Appointment for Patient</span></div>
+          <div class="form-row-3">
+            <div class="form-group">
+              <label>Patient Unique ID</label>
+              <input type="text" id="appt-patient-id" placeholder="e.g. MDID20260605000001" />
+            </div>
+            <div class="form-group">
+              <label>Doctor</label>
+              <select id="appt-doctor-select">
+                <option value="">Loading doctors...</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Date</label>
+              <input type="date" id="appt-date" />
+            </div>
+          </div>
+          <div class="form-row-3">
+            <div class="form-group">
+              <label>Time Slot</label>
+              <input type="text" id="appt-time" placeholder="e.g. 10:00-10:15" />
+            </div>
+            <div class="form-group">
+              <label>Notes (optional)</label>
+              <input type="text" id="appt-notes" placeholder="Reason for visit" />
+            </div>
+            <div class="form-group" style="display:flex;align-items:flex-end;">
+              <button class="btn-primary" onclick="bookAppointment()">Book Appointment</button>
+            </div>
+          </div>
+          <div class="form-msg" id="appt-msg"></div>
+        </div>
+      </div>
+
+      <!-- ===================== TODAY'S APPOINTMENTS SECTION ===================== -->
+      <div class="section" id="section-today">
+        <div class="card">
+          <div class="card-title"><span>Today's Appointments by Doctor</span></div>
+          <div class="form-group" style="max-width:320px;">
+            <label>Select Doctor</label>
+            <select id="today-doctor-select" onchange="loadTodayAppointments()">
+              <option value="">Select a doctor to view queue</option>
+            </select>
+          </div>
+          <table class="data-table" id="today-table">
+            <thead><tr><th>Token</th><th>Patient ID</th><th>Time Slot</th><th>Status</th></tr></thead>
+            <tbody><tr><td colspan="4" class="empty-row">Select a doctor above.</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Loading overlay -->
+<div class="loading-overlay" id="loading-overlay" style="display:none;">
+  <div class="spinner"></div>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/utils.js"></script>
+<script src="../js/receptionist.js"></script>
+</body>
+</html>

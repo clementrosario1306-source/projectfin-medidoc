@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pharmacy - MediDoc</title>
+<link rel="stylesheet" href="../css/dashboard.css" />
+</head>
+<body>
+
+<div class="dash-layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">MediDoc</div>
+      <div class="sidebar-role">Pharmacy</div>
+    </div>
+    <div class="sidebar-menu">
+      <div class="smenu-item active" data-section="stock" onclick="showSection('stock')">Medicine Stock</div>
+      <div class="smenu-item" data-section="issue" onclick="showSection('issue')">Issue Medicine</div>
+      <div class="smenu-item" data-section="add" onclick="showSection('add')">Add Medicine</div>
+      <div class="smenu-item logout-item" onclick="logout()">Logout</div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="dash-main">
+    <div class="dash-topbar">
+      <div class="topbar-title" id="page-title">Medicine Stock</div>
+      <div class="topbar-right">
+        <span class="topbar-date" id="today-date"></span>
+      </div>
+    </div>
+
+    <div class="dash-content">
+
+      <!-- ===================== STOCK SECTION ===================== -->
+      <div class="section active" id="section-stock">
+
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-label">Total Medicines</div>
+            <div class="stat-value" id="stat-total-medicines">--</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Low Stock Items</div>
+            <div class="stat-value" id="stat-low-stock-meds" style="color:#a32d2d;">--</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>All Medicines</span>
+            <input type="text" id="med-search-box" placeholder="Search medicine..." class="search-inline" onkeyup="filterMedicines()" />
+          </div>
+          <table class="data-table" id="medicines-table">
+            <thead><tr><th>Name</th><th>Category</th><th>Stock</th><th>Min Level</th><th>Price/Unit</th><th>Status</th></tr></thead>
+            <tbody><tr><td colspan="6" class="empty-row">Loading...</td></tr></tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span>Add Stock to Existing Medicine</span></div>
+          <div class="form-row-3">
+            <div class="form-group">
+              <label>Medicine ID</label>
+              <input type="number" id="stock-medicine-id" placeholder="e.g. 1" />
+            </div>
+            <div class="form-group">
+              <label>Quantity to Add</label>
+              <input type="number" id="stock-quantity" placeholder="e.g. 100" min="1" />
+            </div>
+            <div class="form-group" style="display:flex;align-items:flex-end;">
+              <button class="btn-primary" onclick="addStock()">Add Stock</button>
+            </div>
+          </div>
+          <div class="form-msg" id="add-stock-msg"></div>
+        </div>
+
+      </div>
+
+      <!-- ===================== ISSUE SECTION ===================== -->
+      <div class="section" id="section-issue">
+        <div class="card">
+          <div class="card-title"><span>Issue Medicine</span></div>
+          <div class="form-row-3">
+            <div class="form-group">
+              <label>Medicine ID</label>
+              <input type="number" id="issue-medicine-id" placeholder="e.g. 1" />
+            </div>
+            <div class="form-group">
+              <label>Quantity to Issue</label>
+              <input type="number" id="issue-quantity" placeholder="e.g. 10" min="1" />
+            </div>
+            <div class="form-group" style="display:flex;align-items:flex-end;">
+              <button class="btn-primary" onclick="issueMedicine()">Issue Medicine</button>
+            </div>
+          </div>
+          <div class="form-msg" id="issue-msg"></div>
+          <p style="font-size:12px;color:#9ca3af;margin-top:6px;">Tip: Check the Medicine Stock tab for the correct Medicine ID before issuing.</p>
+        </div>
+      </div>
+
+      <!-- ===================== ADD MEDICINE SECTION ===================== -->
+      <div class="section" id="section-add">
+        <div class="card">
+          <div class="card-title"><span>Add New Medicine to Catalog</span></div>
+          <div class="form-row-3">
+            <div class="form-group">
+              <label>Medicine Name *</label>
+              <input type="text" id="new-med-name" placeholder="e.g. Paracetamol 500mg" />
+            </div>
+            <div class="form-group">
+              <label>Generic Name</label>
+              <input type="text" id="new-med-generic" placeholder="e.g. Paracetamol" />
+            </div>
+            <div class="form-group">
+              <label>Category</label>
+              <input type="text" id="new-med-category" placeholder="e.g. Analgesic" />
+            </div>
+          </div>
+          <div class="form-row-3">
+            <div class="form-group">
+              <label>Unit</label>
+              <input type="text" id="new-med-unit" placeholder="e.g. Tablet, Bottle" />
+            </div>
+            <div class="form-group">
+              <label>Starting Stock</label>
+              <input type="number" id="new-med-stock" placeholder="e.g. 200" min="0" />
+            </div>
+            <div class="form-group">
+              <label>Min Stock Level</label>
+              <input type="number" id="new-med-min" placeholder="e.g. 20" min="0" />
+            </div>
+          </div>
+          <div class="form-row-3">
+            <div class="form-group">
+              <label>Price per Unit</label>
+              <input type="number" id="new-med-price" placeholder="e.g. 2.50" step="0.01" min="0" />
+            </div>
+            <div class="form-group">
+              <label>Manufacturer</label>
+              <input type="text" id="new-med-manufacturer" placeholder="e.g. Cipla" />
+            </div>
+            <div class="form-group" style="display:flex;align-items:flex-end;">
+              <button class="btn-primary" onclick="addNewMedicine()">Add Medicine</button>
+            </div>
+          </div>
+          <div class="form-msg" id="new-med-msg"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Loading overlay -->
+<div class="loading-overlay" id="loading-overlay" style="display:none;">
+  <div class="spinner"></div>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/utils.js"></script>
+<script src="../js/pharmacy.js"></script>
+</body>
+</html>

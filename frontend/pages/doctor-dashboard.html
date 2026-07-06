@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Doctor Dashboard - MediDoc</title>
+<link rel="stylesheet" href="../css/dashboard.css" />
+<link rel="stylesheet" href="../css/doctor.css" />
+</head>
+<body>
+
+<div class="dash-layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">MediDoc</div>
+      <div class="sidebar-role">Doctor</div>
+    </div>
+    <div class="sidebar-menu">
+      <div class="smenu-item active" data-section="search" onclick="showSection('search')">Search Patient</div>
+      <div class="smenu-item" data-section="queue" onclick="showSection('queue')">Today's Queue</div>
+      <div class="smenu-item logout-item" onclick="logout()">Logout</div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="dash-main">
+    <div class="dash-topbar">
+      <div class="topbar-title" id="page-title">Search Patient</div>
+      <div class="topbar-right">
+        <span class="pill-blue status-pill" id="queue-count-badge">-- patients today</span>
+        <span class="topbar-date" id="today-date"></span>
+        <div class="avatar" id="doctor-avatar">--</div>
+      </div>
+    </div>
+
+    <div class="dash-content">
+
+      <!-- ===================== SEARCH SECTION ===================== -->
+      <div class="section active" id="section-search">
+
+        <div class="search-bar">
+          <input type="text" id="search-unique-id" placeholder="Enter Patient Unique ID e.g. MDID20260605000001" />
+          <button class="btn-primary search-btn" onclick="searchPatient()">Search</button>
+        </div>
+        <div class="form-msg" id="search-msg"></div>
+
+        <!-- ===================== PATIENT REPORT CARD (hidden until search) ===================== -->
+        <div class="card" id="report-card" style="display:none;">
+
+          <div class="allergy-warn" id="allergy-warning" style="display:none;"></div>
+
+          <div class="report-header">
+            <div class="report-avatar" id="report-avatar">--</div>
+            <div class="report-id-block">
+              <div class="report-name" id="report-name">--</div>
+              <div class="report-meta" id="report-meta">-- &middot; Registered: --</div>
+            </div>
+            <div class="report-tags" id="report-tags"></div>
+          </div>
+
+          <div class="report-tabs">
+            <div class="rtab active" data-tab="info" onclick="switchReportTab('info')">Personal Info</div>
+            <div class="rtab" data-tab="history" onclick="switchReportTab('history')">Medical History</div>
+            <div class="rtab" data-tab="rx" onclick="switchReportTab('rx')">Prescriptions</div>
+            <div class="rtab" data-tab="lab" onclick="switchReportTab('lab')">Lab Reports</div>
+            <div class="rtab" data-tab="appts" onclick="switchReportTab('appts')">Appointments</div>
+            <div class="rtab" data-tab="ai" onclick="switchReportTab('ai')">AI Summary</div>
+          </div>
+
+          <!-- TAB: Personal Info -->
+          <div class="report-tab-content active" id="tab-info">
+            <div class="pcard-grid" id="info-grid"></div>
+          </div>
+
+          <!-- TAB: Medical History (the disease/diagnosis history) -->
+          <div class="report-tab-content" id="tab-history">
+            <table class="data-table" id="history-table">
+              <thead><tr><th>Visit Date</th><th>Chief Complaint</th><th>Diagnosis</th><th>Notes</th><th>Follow-up</th></tr></thead>
+              <tbody><tr><td colspan="5" class="empty-row">No history yet.</td></tr></tbody>
+            </table>
+          </div>
+
+          <!-- TAB: Prescriptions -->
+          <div class="report-tab-content" id="tab-rx">
+            <table class="data-table" id="rx-table">
+              <thead><tr><th>Date</th><th>Notes</th><th>Status</th></tr></thead>
+              <tbody><tr><td colspan="3" class="empty-row">No prescriptions yet.</td></tr></tbody>
+            </table>
+          </div>
+
+          <!-- TAB: Lab Reports -->
+          <div class="report-tab-content" id="tab-lab">
+            <table class="data-table" id="lab-table">
+              <thead><tr><th>Test</th><th>Date</th><th>Result</th><th>Normal Range</th><th>Status</th></tr></thead>
+              <tbody><tr><td colspan="5" class="empty-row">No lab reports yet.</td></tr></tbody>
+            </table>
+          </div>
+
+          <!-- TAB: Appointments -->
+          <div class="report-tab-content" id="tab-appts">
+            <table class="data-table" id="appts-table">
+              <thead><tr><th>Token</th><th>Date</th><th>Time</th><th>Status</th></tr></thead>
+              <tbody><tr><td colspan="4" class="empty-row">No appointments yet.</td></tr></tbody>
+            </table>
+          </div>
+
+          <!-- TAB: AI Summary -->
+          <div class="report-tab-content" id="tab-ai">
+            <div class="ai-summary-box" id="ai-summary-text">No summary available.</div>
+          </div>
+
+          <div class="action-row">
+            <button class="btn-primary action-btn" onclick="openPrescriptionModal()">Add Prescription</button>
+            <button class="btn-secondary action-btn" onclick="openLabOrderModal()">Order Lab Test</button>
+            <button class="btn-secondary action-btn" onclick="openBedModal()">Admit to Bed</button>
+            <button class="btn-secondary action-btn" onclick="openReferralModal()">Refer Patient</button>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ===================== TODAY'S QUEUE SECTION ===================== -->
+      <div class="section" id="section-queue">
+        <div class="card">
+          <div class="card-title"><span>Today's Patient Queue</span></div>
+          <table class="data-table" id="queue-table">
+            <thead><tr><th>Token</th><th>Patient ID</th><th>Time Slot</th><th>Status</th><th></th></tr></thead>
+            <tbody><tr><td colspan="5" class="empty-row">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ADD PRESCRIPTION MODAL ===================== -->
+<div class="modal-overlay" id="rx-modal" style="display:none;">
+  <div class="modal-box">
+    <div class="modal-title">Add Prescription</div>
+    <div class="form-group">
+      <label>Notes</label>
+      <input type="text" id="rx-notes" placeholder="e.g. Take after food, review in 2 weeks" />
+    </div>
+
+    <div id="rx-medicine-list"></div>
+
+    <button class="btn-secondary" style="margin-bottom:14px;" onclick="addMedicineRow()">+ Add Medicine</button>
+
+    <div class="form-msg" id="rx-modal-msg"></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('rx-modal')">Cancel</button>
+      <button class="btn-primary" onclick="submitPrescription()">Save Prescription</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== LAB ORDER MODAL ===================== -->
+<div class="modal-overlay" id="lab-modal" style="display:none;">
+  <div class="modal-box">
+    <div class="modal-title">Order Lab Test</div>
+    <div class="form-group">
+      <label>Test Name</label>
+      <input type="text" id="lab-test-name" placeholder="e.g. Complete Blood Count" />
+    </div>
+    <div class="form-group">
+      <label>Test Date</label>
+      <input type="date" id="lab-test-date" />
+    </div>
+    <div class="form-group">
+      <label>Normal Range (optional)</label>
+      <input type="text" id="lab-normal-range" placeholder="e.g. 70-100 mg/dL" />
+    </div>
+    <div class="form-msg" id="lab-modal-msg"></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('lab-modal')">Cancel</button>
+      <button class="btn-primary" onclick="submitLabOrder()">Order Test</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ADMIT TO BED MODAL ===================== -->
+<div class="modal-overlay" id="bed-modal" style="display:none;">
+  <div class="modal-box">
+    <div class="modal-title">Admit to Bed</div>
+    <div class="form-group">
+      <label>Available Bed</label>
+      <select id="bed-select">
+        <option value="">Loading beds...</option>
+      </select>
+    </div>
+    <div class="form-msg" id="bed-modal-msg"></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('bed-modal')">Cancel</button>
+      <button class="btn-primary" onclick="submitBedAdmission()">Admit Patient</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== REFER PATIENT MODAL ===================== -->
+<div class="modal-overlay" id="referral-modal" style="display:none;">
+  <div class="modal-box">
+    <div class="modal-title">Refer Patient</div>
+    <div class="form-group">
+      <label>Referring To (Hospital)</label>
+      <input type="text" id="ref-hospital" placeholder="e.g. AIIMS Delhi" />
+    </div>
+    <div class="form-group">
+      <label>Reason for Referral</label>
+      <input type="text" id="ref-reason" placeholder="e.g. Specialized cardiac care needed" />
+    </div>
+    <div class="form-group">
+      <label>Urgency</label>
+      <select id="ref-urgency">
+        <option value="ROUTINE">Routine</option>
+        <option value="URGENT">Urgent</option>
+        <option value="EMERGENCY">Emergency</option>
+      </select>
+    </div>
+    <div class="form-msg" id="ref-modal-msg"></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('referral-modal')">Cancel</button>
+      <button class="btn-primary" onclick="submitReferral()">Refer Patient</button>
+    </div>
+  </div>
+</div>
+
+<!-- Loading overlay -->
+<div class="loading-overlay" id="loading-overlay" style="display:none;">
+  <div class="spinner"></div>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/utils.js"></script>
+<script src="../js/doctor.js"></script>
+</body>
+</html>

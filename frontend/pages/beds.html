@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bed Availability - MediDoc</title>
+<link rel="stylesheet" href="../css/dashboard.css" />
+<link rel="stylesheet" href="../css/beds.css" />
+</head>
+<body>
+
+<div class="dash-layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">MediDoc</div>
+      <div class="sidebar-role">Bed Management</div>
+    </div>
+    <div class="sidebar-menu">
+      <div class="smenu-item active" data-section="overview" onclick="showSection('overview')">Bed Overview</div>
+      <div class="smenu-item" data-section="admit" onclick="showSection('admit')">Admit Patient</div>
+      <div class="smenu-item" data-section="discharge" onclick="showSection('discharge')">Discharge</div>
+      <div class="smenu-item logout-item" onclick="logout()">Logout</div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="dash-main">
+    <div class="dash-topbar">
+      <div class="topbar-title" id="page-title">Real-time Bed Availability</div>
+      <div class="topbar-right">
+        <div class="legend">
+          <span class="legend-item"><span class="legend-dot available"></span>Available</span>
+          <span class="legend-item"><span class="legend-dot occupied"></span>Occupied</span>
+          <span class="legend-item"><span class="legend-dot maintenance"></span>Maintenance</span>
+        </div>
+        <span class="topbar-date" id="today-date"></span>
+      </div>
+    </div>
+
+    <div class="dash-content">
+
+      <!-- ===================== OVERVIEW SECTION ===================== -->
+      <div class="section active" id="section-overview">
+
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-label">Total Beds</div>
+            <div class="stat-value" id="stat-total-beds">--</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Available</div>
+            <div class="stat-value" id="stat-available-beds" style="color:#3b6d11;">--</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Occupied</div>
+            <div class="stat-value" id="stat-occupied-beds" style="color:#e24b4a;">--</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Maintenance</div>
+            <div class="stat-value" id="stat-maintenance-beds" style="color:#854f0b;">--</div>
+          </div>
+        </div>
+
+        <div id="ward-groups">
+          <div class="empty-row">Loading beds...</div>
+        </div>
+
+      </div>
+
+      <!-- ===================== ADMIT SECTION ===================== -->
+      <div class="section" id="section-admit">
+        <div class="card">
+          <div class="card-title"><span>Admit Patient to Bed</span></div>
+          <div class="form-row-3">
+            <div class="form-group">
+              <label>Patient Unique ID</label>
+              <input type="text" id="admit-patient-id" placeholder="e.g. MDID20260605000001" />
+            </div>
+            <div class="form-group">
+              <label>Available Bed</label>
+              <select id="admit-bed-select">
+                <option value="">Loading beds...</option>
+              </select>
+            </div>
+            <div class="form-group" style="display:flex;align-items:flex-end;">
+              <button class="btn-primary" onclick="admitPatient()">Admit Patient</button>
+            </div>
+          </div>
+          <div class="form-msg" id="admit-msg"></div>
+        </div>
+      </div>
+
+      <!-- ===================== DISCHARGE SECTION ===================== -->
+      <div class="section" id="section-discharge">
+        <div class="card">
+          <div class="card-title"><span>Discharge Patient</span></div>
+          <div class="form-row-3">
+            <div class="form-group">
+              <label>Occupied Bed</label>
+              <select id="discharge-bed-select">
+                <option value="">Loading beds...</option>
+              </select>
+            </div>
+            <div class="form-group" style="display:flex;align-items:flex-end;">
+              <button class="btn-primary" onclick="dischargePatient()">Discharge Patient</button>
+            </div>
+          </div>
+          <div class="form-msg" id="discharge-msg"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Loading overlay -->
+<div class="loading-overlay" id="loading-overlay" style="display:none;">
+  <div class="spinner"></div>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/utils.js"></script>
+<script src="../js/beds.js"></script>
+</body>
+</html>

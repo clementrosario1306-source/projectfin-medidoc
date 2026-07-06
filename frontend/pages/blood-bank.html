@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Blood Bank Dashboard - MediDoc</title>
+<link rel="stylesheet" href="../css/dashboard.css" />
+<link rel="stylesheet" href="../css/blood-bank.css" />
+</head>
+<body>
+
+<div class="dash-layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">MediDoc</div>
+      <div class="sidebar-role">Blood Bank Officer</div>
+    </div>
+    <div class="sidebar-menu">
+      <div class="smenu-item active" data-section="inventory" onclick="showSection('inventory')">Inventory</div>
+      <div class="smenu-item" data-section="requests" onclick="showSection('requests')">Blood Requests</div>
+      <div class="smenu-item" data-section="donors" onclick="showSection('donors')">Donors</div>
+      <div class="smenu-item" data-section="search" onclick="showSection('search')">Search Hospital</div>
+      <div class="smenu-item logout-item" onclick="logout()">Logout</div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="dash-main">
+    <div class="dash-topbar">
+      <div class="topbar-title" id="page-title">Blood Bank Inventory</div>
+      <div class="topbar-right">
+        <button class="btn-emergency" onclick="openEmergencyModal()">Emergency Request</button>
+        <span class="topbar-date" id="today-date"></span>
+        <div class="avatar" id="officer-avatar">--</div>
+      </div>
+    </div>
+
+    <div class="dash-content">
+
+      <!-- ===================== INVENTORY SECTION ===================== -->
+      <div class="section active" id="section-inventory">
+
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-label">Total Units</div>
+            <div class="stat-value" id="stat-total-units">--</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Critical Low (&lt;10 units)</div>
+            <div class="stat-value" id="stat-low-stock" style="color:#a32d2d;">--</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Pending Requests</div>
+            <div class="stat-value" id="stat-pending-requests">--</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Registered Donors</div>
+            <div class="stat-value" id="stat-donor-count">--</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span>Blood Group Inventory</span></div>
+          <div class="blood-grid" id="blood-grid">
+            <div class="empty-row">Loading...</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span>Add Blood Stock</span></div>
+          <div class="form-row-3">
+            <div class="form-group">
+              <label>Blood Group</label>
+              <select id="add-stock-group">
+                <option value="A_POSITIVE">A+</option>
+                <option value="A_NEGATIVE">A-</option>
+                <option value="B_POSITIVE">B+</option>
+                <option value="B_NEGATIVE">B-</option>
+                <option value="O_POSITIVE">O+</option>
+                <option value="O_NEGATIVE">O-</option>
+                <option value="AB_POSITIVE">AB+</option>
+                <option value="AB_NEGATIVE">AB-</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Units to Add</label>
+              <input type="number" id="add-stock-units" placeholder="e.g. 10" min="1" />
+            </div>
+            <div class="form-group" style="display:flex;align-items:flex-end;">
+              <button class="btn-primary" onclick="addStock()">Add Stock</button>
+            </div>
+          </div>
+          <div class="form-msg" id="add-stock-msg"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span>Issue Blood to Patient</span></div>
+          <div class="form-row-3">
+            <div class="form-group">
+              <label>Blood Group</label>
+              <select id="issue-blood-group">
+                <option value="A_POSITIVE">A+</option>
+                <option value="A_NEGATIVE">A-</option>
+                <option value="B_POSITIVE">B+</option>
+                <option value="B_NEGATIVE">B-</option>
+                <option value="O_POSITIVE">O+</option>
+                <option value="O_NEGATIVE">O-</option>
+                <option value="AB_POSITIVE">AB+</option>
+                <option value="AB_NEGATIVE">AB-</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Units to Issue</label>
+              <input type="number" id="issue-units" placeholder="e.g. 2" min="1" />
+            </div>
+            <div class="form-group" style="display:flex;align-items:flex-end;">
+              <button class="btn-primary" onclick="issueBlood()">Issue Blood</button>
+            </div>
+          </div>
+          <div class="form-msg" id="issue-msg"></div>
+        </div>
+
+      </div>
+
+      <!-- ===================== BLOOD REQUESTS SECTION ===================== -->
+      <div class="section" id="section-requests">
+        <div class="card">
+          <div class="card-title"><span>Pending Blood Requests</span></div>
+          <table class="data-table" id="pending-requests-table">
+            <thead><tr><th>Patient ID</th><th>Blood Group</th><th>Units</th><th>Priority</th><th>Purpose</th><th>Status</th></tr></thead>
+            <tbody><tr><td colspan="6" class="empty-row">Loading...</td></tr></tbody>
+          </table>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>Emergency Requests</span></div>
+          <table class="data-table" id="emergency-requests-table">
+            <thead><tr><th>Patient ID</th><th>Blood Group</th><th>Units</th><th>Purpose</th><th>Status</th></tr></thead>
+            <tbody><tr><td colspan="5" class="empty-row">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===================== DONORS SECTION ===================== -->
+      <div class="section" id="section-donors">
+        <div class="card">
+          <div class="card-title"><span>Register Blood Donor</span></div>
+          <div class="form-row-3">
+            <div class="form-group">
+              <label>Full Name *</label>
+              <input type="text" id="donor-name" placeholder="Donor's full name" />
+            </div>
+            <div class="form-group">
+              <label>Blood Group *</label>
+              <select id="donor-blood-group">
+                <option value="A_POSITIVE">A+</option>
+                <option value="A_NEGATIVE">A-</option>
+                <option value="B_POSITIVE">B+</option>
+                <option value="B_NEGATIVE">B-</option>
+                <option value="O_POSITIVE">O+</option>
+                <option value="O_NEGATIVE">O-</option>
+                <option value="AB_POSITIVE">AB+</option>
+                <option value="AB_NEGATIVE">AB-</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Age *</label>
+              <input type="number" id="donor-age" placeholder="18-65" min="18" max="65" />
+            </div>
+          </div>
+          <div class="form-row-3">
+            <div class="form-group">
+              <label>Mobile *</label>
+              <input type="text" id="donor-mobile" placeholder="10-digit mobile" maxlength="10" />
+            </div>
+            <div class="form-group" style="grid-column: span 2;">
+              <label>Address</label>
+              <input type="text" id="donor-address" placeholder="City, State" />
+            </div>
+          </div>
+          <div class="form-msg" id="donor-msg"></div>
+          <button class="btn-primary" style="max-width:220px;" onclick="registerDonor()">Register Donor</button>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span>All Registered Donors</span></div>
+          <table class="data-table" id="donors-table">
+            <thead><tr><th>Name</th><th>Blood Group</th><th>Mobile</th><th>Age</th><th>Eligible</th></tr></thead>
+            <tbody><tr><td colspan="5" class="empty-row">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===================== SEARCH HOSPITAL SECTION ===================== -->
+      <div class="section" id="section-search">
+        <div class="card">
+          <div class="card-title"><span>Search Blood Availability Across Hospitals</span></div>
+          <div class="form-row-3">
+            <div class="form-group">
+              <label>Blood Group</label>
+              <select id="search-blood-group">
+                <option value="A_POSITIVE">A+</option>
+                <option value="A_NEGATIVE">A-</option>
+                <option value="B_POSITIVE">B+</option>
+                <option value="B_NEGATIVE">B-</option>
+                <option value="O_POSITIVE">O+</option>
+                <option value="O_NEGATIVE">O-</option>
+                <option value="AB_POSITIVE">AB+</option>
+                <option value="AB_NEGATIVE">AB-</option>
+              </select>
+            </div>
+            <div class="form-group" style="display:flex;align-items:flex-end;">
+              <button class="btn-primary" onclick="searchHospitals()">Search</button>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>Results</span></div>
+          <table class="data-table" id="hospital-search-table">
+            <thead><tr><th>Hospital</th><th>Blood Group</th><th>Units Available</th><th>Location</th></tr></thead>
+            <tbody><tr><td colspan="4" class="empty-row">Search above to see results.</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ===================== EMERGENCY REQUEST MODAL ===================== -->
+<div class="modal-overlay" id="emergency-modal" style="display:none;">
+  <div class="modal-box">
+    <div class="modal-title">Emergency Blood Request</div>
+    <div class="form-group">
+      <label>Blood Group</label>
+      <select id="emg-blood-group">
+        <option value="A_POSITIVE">A+</option>
+        <option value="A_NEGATIVE">A-</option>
+        <option value="B_POSITIVE">B+</option>
+        <option value="B_NEGATIVE">B-</option>
+        <option value="O_POSITIVE">O+</option>
+        <option value="O_NEGATIVE">O-</option>
+        <option value="AB_POSITIVE">AB+</option>
+        <option value="AB_NEGATIVE">AB-</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Units Required</label>
+      <input type="number" id="emg-units" value="1" min="1" max="10" />
+    </div>
+    <div class="form-group">
+      <label>Purpose</label>
+      <input type="text" id="emg-purpose" placeholder="e.g. Trauma surgery" />
+    </div>
+    <div class="form-msg" id="emg-modal-msg"></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('emergency-modal')">Cancel</button>
+      <button class="btn-primary btn-danger" onclick="submitEmergencyRequest()">Submit Emergency Request</button>
+    </div>
+  </div>
+</div>
+
+<!-- Loading overlay -->
+<div class="loading-overlay" id="loading-overlay" style="display:none;">
+  <div class="spinner"></div>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/utils.js"></script>
+<script src="../js/blood-bank.js"></script>
+</body>
+</html>

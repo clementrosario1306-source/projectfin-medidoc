@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MediDoc - Smart e-OPD &amp; Health Record System</title>
+<link rel="stylesheet" href="css/login.css" />
+</head>
+<body>
+
+<div class="login-wrap">
+
+  <!-- LEFT BRAND PANEL -->
+  <div class="login-left">
+    <div class="login-logo">+</div>
+    <div class="login-brand">MediDoc</div>
+    <div class="login-tag">Smart e-OPD, AI Health Records &amp; Blood Bank Management System</div>
+    <div class="login-stats">
+      <div class="lstat"><div class="lstat-num" id="stat-patients">--</div><div class="lstat-lbl">Patients</div></div>
+      <div class="lstat"><div class="lstat-num" id="stat-doctors">--</div><div class="lstat-lbl">Doctors</div></div>
+      <div class="lstat"><div class="lstat-num" id="stat-beds">--</div><div class="lstat-lbl">Beds</div></div>
+    </div>
+  </div>
+
+  <!-- RIGHT FORM PANEL -->
+  <div class="login-right">
+
+    <!-- ============ LOGIN CARD ============ -->
+    <div class="login-card" id="login-card">
+      <h2>Welcome back</h2>
+      <p>Sign in to continue to MediDoc</p>
+
+      <div class="role-tabs">
+        <div class="rtab active" id="tab-patient" onclick="switchRole('patient')">Patient</div>
+        <div class="rtab" id="tab-staff" onclick="switchRole('staff')">Staff</div>
+      </div>
+
+      <!-- PATIENT LOGIN FORM -->
+      <form id="patient-login-form" onsubmit="return false;">
+        <div class="form-group">
+          <label for="p-unique-id">Unique Health ID</label>
+          <input type="text" id="p-unique-id" placeholder="e.g. MDID20260605000001" />
+        </div>
+        <div class="form-group">
+          <label for="p-mobile">Mobile Number</label>
+          <input type="text" id="p-mobile" placeholder="10-digit mobile number" maxlength="10" />
+        </div>
+        <div class="form-group">
+          <label for="p-otp">OTP</label>
+          <div class="otp-row">
+            <input type="text" id="p-otp" placeholder="6-digit OTP" maxlength="6" />
+            <button type="button" class="otp-btn" id="send-otp-btn" onclick="sendOtp()">Send OTP</button>
+          </div>
+        </div>
+
+        <div class="form-msg" id="patient-msg"></div>
+
+        <button type="button" class="btn-primary" id="patient-login-btn" onclick="patientLogin()">Login as Patient</button>
+
+        <div class="divider"><span>New patient?</span></div>
+        <button type="button" class="btn-secondary" onclick="showRegister()">Register &amp; Get Health ID</button>
+      </form>
+
+      <!-- STAFF LOGIN FORM -->
+      <form id="staff-login-form" onsubmit="return false;" style="display:none;">
+        <div class="form-group">
+          <label for="s-employee-id">Employee ID</label>
+          <input type="text" id="s-employee-id" placeholder="e.g. DOC001" />
+        </div>
+        <div class="form-group">
+          <label for="s-password">Password</label>
+          <input type="password" id="s-password" placeholder="Enter your password" />
+        </div>
+        <div class="form-group">
+          <label for="s-role">Role</label>
+          <select id="s-role">
+            <option value="DOCTOR">Doctor</option>
+            <option value="RECEPTIONIST">Receptionist</option>
+            <option value="BLOOD_BANK_OFFICER">Blood Bank Officer</option>
+            <option value="ADMIN">Admin</option>
+          </select>
+        </div>
+
+        <div class="form-msg" id="staff-msg"></div>
+
+        <button type="button" class="btn-primary" id="staff-login-btn" onclick="staffLogin()">Login as Staff</button>
+      </form>
+
+    </div>
+
+    <!-- ============ REGISTRATION CARD ============ -->
+    <div class="login-card" id="register-card" style="display:none;">
+      <h2>New Patient Registration</h2>
+      <p>Fill in your details to get your Unique Health ID</p>
+
+      <form id="register-form" onsubmit="return false;">
+        <div class="form-group">
+          <label for="r-fullname">Full Name *</label>
+          <input type="text" id="r-fullname" placeholder="Enter your full name" />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="r-age">Age *</label>
+            <input type="number" id="r-age" placeholder="Age" min="0" max="120" />
+          </div>
+          <div class="form-group">
+            <label for="r-gender">Gender *</label>
+            <select id="r-gender">
+              <option value="">Select</option>
+              <option value="MALE">Male</option>
+              <option value="FEMALE">Female</option>
+              <option value="OTHER">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="r-blood-group">Blood Group</label>
+          <select id="r-blood-group">
+            <option value="">Select (optional)</option>
+            <option value="A_POSITIVE">A+</option>
+            <option value="A_NEGATIVE">A-</option>
+            <option value="B_POSITIVE">B+</option>
+            <option value="B_NEGATIVE">B-</option>
+            <option value="O_POSITIVE">O+</option>
+            <option value="O_NEGATIVE">O-</option>
+            <option value="AB_POSITIVE">AB+</option>
+            <option value="AB_NEGATIVE">AB-</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="r-mobile">Mobile Number *</label>
+          <input type="text" id="r-mobile" placeholder="10-digit mobile number" maxlength="10" />
+        </div>
+
+        <div class="form-group">
+          <label for="r-address">Address</label>
+          <input type="text" id="r-address" placeholder="City, State" />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="r-emergency-name">Emergency Contact Name</label>
+            <input type="text" id="r-emergency-name" placeholder="Name" />
+          </div>
+          <div class="form-group">
+            <label for="r-emergency-phone">Emergency Contact Phone</label>
+            <input type="text" id="r-emergency-phone" placeholder="Phone number" maxlength="10" />
+          </div>
+        </div>
+
+        <div class="form-msg" id="register-msg"></div>
+
+        <button type="button" class="btn-primary" id="register-btn" onclick="registerPatient()">Register</button>
+
+        <div class="divider"><span>Already registered?</span></div>
+        <button type="button" class="btn-secondary" onclick="showLogin()">Back to Login</button>
+      </form>
+    </div>
+
+    <!-- ============ SUCCESS CARD (after registration) ============ -->
+    <div class="login-card" id="success-card" style="display:none;">
+      <div class="success-icon">&#10003;</div>
+      <h2>Registration Successful!</h2>
+      <p>Your Unique Health ID has been generated</p>
+      <div class="unique-id-box" id="generated-id">MDID00000000000000</div>
+      <p class="success-note">Save this ID — you will need it along with your mobile number to log in next time. An SMS has also been sent (simulated) to your mobile.</p>
+      <button type="button" class="btn-primary" onclick="goToLoginWithId()">Continue to Login</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- Loading overlay -->
+<div class="loading-overlay" id="loading-overlay" style="display:none;">
+  <div class="spinner"></div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+</body>
+</html>
