@@ -4,84 +4,98 @@
    ========================================================== */
 
 .btn-emergency {
-  padding: 8px 16px;
-  background: #e24b4a;
-  color: #fff;
+  padding: 10px 20px;
+  background: var(--danger);
+  color: #ffffff;
   border: none;
-  border-radius: 8px;
-  font-size: 12.5px;
+  border-radius: var(--radius-md);
+  font-size: 13.5px;
   font-weight: 600;
   cursor: pointer;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+  transition: var(--transition-normal);
 }
 
 .btn-emergency:hover {
-  background: #c93b3a;
+  background: hsl(0, 84%, 43%);
+  box-shadow: 0 6px 18px rgba(239, 68, 68, 0.35);
+  transform: translateY(-1px);
 }
 
 .btn-danger {
-  background: #e24b4a !important;
-  border-color: #e24b4a !important;
+  background: var(--danger) !important;
+  border-color: var(--danger) !important;
+  color: #ffffff !important;
 }
 
 .btn-danger:hover {
-  background: #c93b3a !important;
+  background: hsl(0, 84%, 43%) !important;
 }
 
 /* ===================== BLOOD GROUP GRID ===================== */
 .blood-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+  gap: 16px;
 }
 
 .blood-card {
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 16px 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 20px 16px;
   text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-normal);
+}
+
+.blood-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .blood-card.low-stock {
-  border-color: #f7c1c1;
-  background: #fcebeb;
+  border-color: var(--danger-border);
+  background: var(--danger-light);
 }
 
 .blood-type {
-  font-size: 20px;
-  font-weight: 700;
-  color: #a32d2d;
-  margin-bottom: 4px;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--danger-text);
+  margin-bottom: 6px;
 }
 
 .blood-units {
-  font-size: 26px;
-  font-weight: 700;
-  color: #1a1a1a;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
 }
 
 .blood-card.low-stock .blood-units {
-  color: #e24b4a;
+  color: var(--danger);
 }
 
 .blood-label {
-  font-size: 11px;
-  color: #9ca3af;
-  margin-top: 2px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-top: 4px;
 }
 
 .blood-bar {
-  height: 4px;
-  background: #f1f3f6;
-  border-radius: 2px;
-  margin-top: 10px;
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 3px;
+  margin-top: 14px;
   overflow: hidden;
 }
 
 .blood-fill {
   height: 100%;
-  border-radius: 2px;
-  background: #e24b4a;
+  border-radius: 3px;
+  background: var(--danger);
 }
 
 @media (max-width: 900px) {
