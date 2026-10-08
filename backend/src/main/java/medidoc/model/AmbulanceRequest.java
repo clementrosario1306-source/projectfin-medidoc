@@ -2,73 +2,55 @@ package medidoc.model;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-@Entity
-@Table(name = "ambulance_requests")
+@Document(collection = "ambulance_requests")
 public class AmbulanceRequest {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(name = "patient_id")
-    private Long patientId;
+    @Field("patient_id")
+    private String patientId;
 
-    @Column(name = "ambulance_id")
-    private Long ambulanceId;
+    @Field("ambulance_id")
+    private String ambulanceId;
 
-    @Column(name = "requester_name")
+    @Field("requester_name")
     private String requesterName;
 
-    @Column(name = "requester_phone")
+    @Field("requester_phone")
     private String requesterPhone;
 
-    @Column(name = "pickup_address", columnDefinition = "TEXT", nullable = false)
+    @Field("pickup_address")
     private String pickupAddress;
 
-    @Column(name = "destination")
     private String destination;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status")
     private Status status = Status.REQUESTED;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "priority")
     private Priority priority = Priority.NORMAL;
 
-    @Column(name = "requested_at")
-    private LocalDateTime requestedAt;
+    @Field("requested_at")
+    private LocalDateTime requestedAt = LocalDateTime.now();
 
-    @Column(name = "completed_at")
+    @Field("completed_at")
     private LocalDateTime completedAt;
-
-    @PrePersist
-    protected void onCreate() {
-        requestedAt = LocalDateTime.now();
-    }
 
     public enum Status { REQUESTED, ASSIGNED, EN_ROUTE, COMPLETED, CANCELLED }
     public enum Priority { NORMAL, EMERGENCY }
 
     // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
-    public Long getPatientId() { return patientId; }
-    public void setPatientId(Long patientId) { this.patientId = patientId; }
+    public String getPatientId() { return patientId; }
+    public void setPatientId(String patientId) { this.patientId = patientId; }
 
-    public Long getAmbulanceId() { return ambulanceId; }
-    public void setAmbulanceId(Long ambulanceId) { this.ambulanceId = ambulanceId; }
+    public String getAmbulanceId() { return ambulanceId; }
+    public void setAmbulanceId(String ambulanceId) { this.ambulanceId = ambulanceId; }
 
     public String getRequesterName() { return requesterName; }
     public void setRequesterName(String requesterName) { this.requesterName = requesterName; }

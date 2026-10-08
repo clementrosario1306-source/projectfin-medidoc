@@ -1,52 +1,46 @@
 package medidoc.model;
 
-import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "medical_history")
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+@Document(collection = "medical_history")
 public class MedicalHistory {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(name = "patient_id", nullable = false)
-    private Long patientId;
+    @Field("patient_id")
+    private String patientId;
 
-    @Column(name = "doctor_id", nullable = false)
-    private Long doctorId;
+    @Field("doctor_id")
+    private String doctorId;
 
-    @Column(name = "visit_date")
-    private LocalDateTime visitDate;
+    @Field("visit_date")
+    private LocalDateTime visitDate = LocalDateTime.now();
 
-    @Column(name = "chief_complaint", columnDefinition = "TEXT")
+    @Field("chief_complaint")
     private String chiefComplaint;
 
-    @Column(name = "diagnosis", columnDefinition = "TEXT", nullable = false)
     private String diagnosis;
 
-    @Column(name = "notes", columnDefinition = "TEXT")
     private String notes;
 
-    @Column(name = "follow_up_date")
+    @Field("follow_up_date")
     private LocalDate followUpDate;
 
-    @PrePersist
-    protected void onCreate() {
-        if (visitDate == null) visitDate = LocalDateTime.now();
-    }
-
     // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
-    public Long getPatientId() { return patientId; }
-    public void setPatientId(Long patientId) { this.patientId = patientId; }
+    public String getPatientId() { return patientId; }
+    public void setPatientId(String patientId) { this.patientId = patientId; }
 
-    public Long getDoctorId() { return doctorId; }
-    public void setDoctorId(Long doctorId) { this.doctorId = doctorId; }
+    public String getDoctorId() { return doctorId; }
+    public void setDoctorId(String doctorId) { this.doctorId = doctorId; }
 
     public LocalDateTime getVisitDate() { return visitDate; }
     public void setVisitDate(LocalDateTime visitDate) { this.visitDate = visitDate; }

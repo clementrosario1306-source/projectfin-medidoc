@@ -1,42 +1,37 @@
 package medidoc.model;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "family_members")
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+@Document(collection = "family_members")
 public class FamilyMember {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(name = "primary_patient_id", nullable = false)
-    private Long primaryPatientId;
+    @Field("primary_patient_id")
+    private String primaryPatientId;
 
-    @Column(name = "member_patient_id", nullable = false)
-    private Long memberPatientId;
+    @Field("member_patient_id")
+    private String memberPatientId;
 
-    @Column(name = "relationship")
     private String relationship;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-    }
+    @Field("created_at")
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
-    public Long getPrimaryPatientId() { return primaryPatientId; }
-    public void setPrimaryPatientId(Long primaryPatientId) { this.primaryPatientId = primaryPatientId; }
+    public String getPrimaryPatientId() { return primaryPatientId; }
+    public void setPrimaryPatientId(String primaryPatientId) { this.primaryPatientId = primaryPatientId; }
 
-    public Long getMemberPatientId() { return memberPatientId; }
-    public void setMemberPatientId(Long memberPatientId) { this.memberPatientId = memberPatientId; }
+    public String getMemberPatientId() { return memberPatientId; }
+    public void setMemberPatientId(String memberPatientId) { this.memberPatientId = memberPatientId; }
 
     public String getRelationship() { return relationship; }
     public void setRelationship(String relationship) { this.relationship = relationship; }

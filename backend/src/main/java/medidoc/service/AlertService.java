@@ -35,7 +35,7 @@ public class AlertService {
     }
 
     // DEACTIVATE ALERT
-    public Alert deactivateAlert(Long id) {
+    public Alert deactivateAlert(String id) {
         Optional<Alert> alertOpt = alertRepository.findById(id);
         if (alertOpt.isEmpty()) {
             throw new RuntimeException("Alert not found: " + id);

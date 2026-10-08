@@ -2,20 +2,19 @@ package medidoc.repository;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import medidoc.model.Medicine;
 
 @Repository
-public interface MedicineRepository
-        extends JpaRepository<Medicine, Long> {
+public interface MedicineRepository extends MongoRepository<Medicine, String> {
 
     List<Medicine> findByCategory(String category);
 
     // Get medicines with low stock
-    @Query("SELECT m FROM Medicine m WHERE m.stockQuantity <= m.minStockLevel")
+    @Query("{ '$expr': { '$lte': ['$stock_quantity', '$min_stock_level'] } }")
     List<Medicine> findLowStockMedicines();
 
     // Search by name

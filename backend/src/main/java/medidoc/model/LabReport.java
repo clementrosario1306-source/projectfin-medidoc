@@ -1,64 +1,57 @@
 package medidoc.model;
 
-import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "lab_reports")
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+@Document(collection = "lab_reports")
 public class LabReport {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(name = "patient_id", nullable = false)
-    private Long patientId;
+    @Field("patient_id")
+    private String patientId;
 
-    @Column(name = "doctor_id")
-    private Long doctorId;
+    @Field("doctor_id")
+    private String doctorId;
 
-    @Column(name = "test_name", nullable = false)
+    @Field("test_name")
     private String testName;
 
-    @Column(name = "test_date", nullable = false)
+    @Field("test_date")
     private LocalDate testDate;
 
-    @Column(name = "result", columnDefinition = "TEXT")
     private String result;
 
-    @Column(name = "normal_range")
+    @Field("normal_range")
     private String normalRange;
 
-    @Column(name = "file_path")
+    @Field("file_path")
     private String filePath;
 
-    @Column(name = "ocr_text", columnDefinition = "TEXT")
+    @Field("ocr_text")
     private String ocrText;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status")
     private Status status = Status.PENDING;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-    }
+    @Field("created_at")
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     public enum Status { PENDING, COMPLETED }
 
     // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
-    public Long getPatientId() { return patientId; }
-    public void setPatientId(Long patientId) { this.patientId = patientId; }
+    public String getPatientId() { return patientId; }
+    public void setPatientId(String patientId) { this.patientId = patientId; }
 
-    public Long getDoctorId() { return doctorId; }
-    public void setDoctorId(Long doctorId) { this.doctorId = doctorId; }
+    public String getDoctorId() { return doctorId; }
+    public void setDoctorId(String doctorId) { this.doctorId = doctorId; }
 
     public String getTestName() { return testName; }
     public void setTestName(String testName) { this.testName = testName; }

@@ -57,7 +57,7 @@ public class ReferralController {
 
     @PutMapping("/{id}/status")
     public ResponseEntity<ApiResponse> updateStatus(
-            @PathVariable Long id,
+            @PathVariable String id,
             @RequestParam String status) {
         try {
             Referral referral = referralService.updateStatus(id, status);

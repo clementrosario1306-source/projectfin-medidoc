@@ -1,45 +1,37 @@
 package medidoc.model;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "audit_logs")
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+@Document(collection = "audit_logs")
 public class AuditLog {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(name = "user_id")
+    @Field("user_id")
     private String userId;
 
-    @Column(name = "role")
     private String role;
 
-    @Column(name = "action", nullable = false)
     private String action;
 
-    @Column(name = "patient_unique_number")
+    @Field("patient_unique_number")
     private String patientUniqueNumber;
 
-    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "ip_address")
+    @Field("ip_address")
     private String ipAddress;
 
-    @Column(name = "timestamp")
-    private LocalDateTime timestamp;
-
-    @PrePersist
-    protected void onCreate() {
-        timestamp = LocalDateTime.now();
-    }
+    private LocalDateTime timestamp = LocalDateTime.now();
 
     // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
     public String getUserId() { return userId; }
     public void setUserId(String userId) { this.userId = userId; }

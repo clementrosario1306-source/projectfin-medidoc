@@ -26,7 +26,7 @@ public class PharmacyService {
     }
 
     // ADD MEDICINE STOCK
-    public Medicine addStock(Long medicineId, Integer quantity) {
+    public Medicine addStock(String medicineId, Integer quantity) {
         Optional<Medicine> medicineOpt =
             medicineRepository.findById(medicineId);
         if (medicineOpt.isEmpty()) {
@@ -43,7 +43,7 @@ public class PharmacyService {
     }
 
     // ISSUE MEDICINE TO PATIENT
-    public Medicine issueMedicine(Long medicineId, Integer quantity) {
+    public Medicine issueMedicine(String medicineId, Integer quantity) {
         Optional<Medicine> medicineOpt =
             medicineRepository.findById(medicineId);
         if (medicineOpt.isEmpty()) {

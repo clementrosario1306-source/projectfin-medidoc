@@ -2,47 +2,35 @@ package medidoc.model;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-@Entity
-@Table(name = "beds")
+@Document(collection = "beds")
 public class Bed {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(name = "bed_number", nullable = false, unique = true)
+    @Field("bed_number")
     private String bedNumber;
 
-    @Column(name = "ward", nullable = false)
     private String ward;
 
-    @Column(name = "room_number")
+    @Field("room_number")
     private String roomNumber;
 
-    @Column(name = "floor")
     private String floor;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "bed_type")
+    @Field("bed_type")
     private BedType bedType = BedType.GENERAL;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status")
     private Status status = Status.AVAILABLE;
 
-    @Column(name = "patient_id")
-    private Long patientId;
+    @Field("patient_id")
+    private String patientId;
 
-    @Column(name = "admitted_at")
+    @Field("admitted_at")
     private LocalDateTime admittedAt;
 
     public enum BedType {
@@ -54,8 +42,8 @@ public class Bed {
     }
 
     // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
     public String getBedNumber() { return bedNumber; }
     public void setBedNumber(String bedNumber) { this.bedNumber = bedNumber; }
@@ -75,8 +63,8 @@ public class Bed {
     public Status getStatus() { return status; }
     public void setStatus(Status status) { this.status = status; }
 
-    public Long getPatientId() { return patientId; }
-    public void setPatientId(Long patientId) { this.patientId = patientId; }
+    public String getPatientId() { return patientId; }
+    public void setPatientId(String patientId) { this.patientId = patientId; }
 
     public LocalDateTime getAdmittedAt() { return admittedAt; }
     public void setAdmittedAt(LocalDateTime admittedAt) { this.admittedAt = admittedAt; }

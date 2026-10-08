@@ -68,7 +68,7 @@ public class PrescriptionController {
     // GET /api/prescriptions/{id}/medicines
     @GetMapping("/{id}/medicines")
     public ResponseEntity<ApiResponse> getPrescriptionMedicines(
-            @PathVariable Long id) {
+            @PathVariable String id) {
         List<PrescriptionMedicine> medicines =
             prescriptionService.getPrescriptionMedicines(id);
         return ResponseEntity.ok(ApiResponse.success(

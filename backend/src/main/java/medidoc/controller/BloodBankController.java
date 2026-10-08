@@ -67,7 +67,7 @@ public class BloodBankController {
             @RequestParam Integer units,
             @RequestParam(defaultValue = "NORMAL") String priority,
             @RequestParam(required = false) String purpose,
-            @RequestParam(required = false) Long patientId) {
+            @RequestParam(required = false) String patientId) {
         try {
             BloodRequest request = bloodBankService.requestBlood(
                 bloodGroup, units, priority, purpose, patientId);
@@ -84,7 +84,7 @@ public class BloodBankController {
     public ResponseEntity<ApiResponse> issueBlood(
             @RequestParam String bloodGroup,
             @RequestParam Integer units,
-            @RequestParam(required = false) Long requestId) {
+            @RequestParam(required = false) String requestId) {
         try {
             BloodInventory inventory =
                 bloodBankService.issueBlood(bloodGroup, units, requestId);

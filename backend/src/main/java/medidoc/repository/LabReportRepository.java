@@ -1,13 +1,14 @@
 package medidoc.repository;
 
-import medidoc.model.LabReport;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 import java.util.List;
 
-@Repository
-public interface LabReportRepository
-        extends JpaRepository<LabReport, Long> {
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
-    List<LabReport> findByPatientIdOrderByTestDateDesc(Long patientId);
+import medidoc.model.LabReport;
+
+@Repository
+public interface LabReportRepository extends MongoRepository<LabReport, String> {
+
+    List<LabReport> findByPatientIdOrderByTestDateDesc(String patientId);
 }

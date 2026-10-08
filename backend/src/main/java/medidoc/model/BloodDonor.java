@@ -3,60 +3,43 @@ package medidoc.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-@Entity
-@Table(name = "blood_donors")
+@Document(collection = "blood_donors")
 public class BloodDonor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(name = "full_name", nullable = false)
+    @Field("full_name")
     private String fullName;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "blood_group", nullable = false)
+    @Field("blood_group")
     private BloodInventory.BloodGroup bloodGroup;
 
-    @Column(name = "mobile", nullable = false)
     private String mobile;
 
-    @Column(name = "age")
     private Integer age;
 
-    @Column(name = "address", columnDefinition = "TEXT")
     private String address;
 
-    @Column(name = "last_donation")
+    @Field("last_donation")
     private LocalDate lastDonation;
 
-    @Column(name = "donation_count")
+    @Field("donation_count")
     private Integer donationCount = 0;
 
-    @Column(name = "is_eligible")
+    @Field("is_eligible")
     private Boolean isEligible = true;
 
-    @Column(name = "registered_at")
-    private LocalDateTime registeredAt;
-
-    @PrePersist
-    protected void onCreate() {
-        registeredAt = LocalDateTime.now();
-    }
+    @Field("registered_at")
+    private LocalDateTime registeredAt = LocalDateTime.now();
 
     // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
     public String getFullName() { return fullName; }
     public void setFullName(String fullName) { this.fullName = fullName; }

@@ -138,7 +138,7 @@ public class AppointmentService {
     // -----------------------------------------------
     // UPDATE APPOINTMENT STATUS
     // -----------------------------------------------
-    public Appointment updateStatus(Long id, String status) {
+    public Appointment updateStatus(String id, String status) {
 
         Optional<Appointment> apptOpt =
             appointmentRepository.findById(id);

@@ -1,47 +1,39 @@
 package medidoc.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-@Entity
-@Table(name = "prescriptions_medicines")
+@Document(collection = "prescriptions_medicines")
 public class PrescriptionMedicine {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(name = "prescription_id", nullable = false)
-    private Long prescriptionId;
+    @Field("prescription_id")
+    private String prescriptionId;
 
-    @Column(name = "medicine_id", nullable = false)
-    private Long medicineId;
+    @Field("medicine_id")
+    private String medicineId;
 
-    @Column(name = "dosage")
     private String dosage;
 
-    @Column(name = "frequency")
     private String frequency;
 
-    @Column(name = "duration_days")
+    @Field("duration_days")
     private Integer durationDays;
 
-    @Column(name = "instructions", columnDefinition = "TEXT")
     private String instructions;
 
     // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
-    public Long getPrescriptionId() { return prescriptionId; }
-    public void setPrescriptionId(Long prescriptionId) { this.prescriptionId = prescriptionId; }
+    public String getPrescriptionId() { return prescriptionId; }
+    public void setPrescriptionId(String prescriptionId) { this.prescriptionId = prescriptionId; }
 
-    public Long getMedicineId() { return medicineId; }
-    public void setMedicineId(Long medicineId) { this.medicineId = medicineId; }
+    public String getMedicineId() { return medicineId; }
+    public void setMedicineId(String medicineId) { this.medicineId = medicineId; }
 
     public String getDosage() { return dosage; }
     public void setDosage(String dosage) { this.dosage = dosage; }

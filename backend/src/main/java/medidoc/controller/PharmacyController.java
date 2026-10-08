@@ -41,7 +41,7 @@ public class PharmacyController {
 
     @PostMapping("/add-stock")
     public ResponseEntity<ApiResponse> addStock(
-            @RequestParam Long medicineId,
+            @RequestParam String medicineId,
             @RequestParam Integer quantity) {
         try {
             Medicine medicine =
@@ -56,7 +56,7 @@ public class PharmacyController {
 
     @PostMapping("/issue")
     public ResponseEntity<ApiResponse> issueMedicine(
-            @RequestParam Long medicineId,
+            @RequestParam String medicineId,
             @RequestParam Integer quantity) {
         try {
             Medicine medicine =

@@ -2,61 +2,43 @@ package medidoc.model;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-@Entity
-@Table(name = "alerts")
+@Document(collection = "alerts")
 public class Alert {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "message", columnDefinition = "TEXT", nullable = false)
     private String message;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "alert_type", nullable = false)
+    @Field("alert_type")
     private AlertType alertType;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "severity")
     private Severity severity = Severity.MEDIUM;
 
-    @Column(name = "created_by")
-    private Long createdBy;
+    @Field("created_by")
+    private String createdBy;
 
-    @Column(name = "is_active")
+    @Field("is_active")
     private Boolean isActive = true;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @Field("created_at")
+    private LocalDateTime createdAt = LocalDateTime.now();
 
-    @Column(name = "expires_at")
+    @Field("expires_at")
     private LocalDateTime expiresAt;
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-    }
 
     public enum AlertType { EPIDEMIC, BLOOD_SHORTAGE, BED_SHORTAGE, GENERAL, EMERGENCY }
     public enum Severity { LOW, MEDIUM, HIGH, CRITICAL }
 
     // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
@@ -70,8 +52,8 @@ public class Alert {
     public Severity getSeverity() { return severity; }
     public void setSeverity(Severity severity) { this.severity = severity; }
 
-    public Long getCreatedBy() { return createdBy; }
-    public void setCreatedBy(Long createdBy) { this.createdBy = createdBy; }
+    public String getCreatedBy() { return createdBy; }
+    public void setCreatedBy(String createdBy) { this.createdBy = createdBy; }
 
     public Boolean getIsActive() { return isActive; }
     public void setIsActive(Boolean isActive) { this.isActive = isActive; }

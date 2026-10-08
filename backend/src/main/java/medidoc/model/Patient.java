@@ -2,83 +2,57 @@ package medidoc.model;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
-import jakarta.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-@Entity
-@Table(name = "patients")
+@Document(collection = "patients")
 public class Patient {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(name = "unique_id", nullable = false, unique = true)
+    @Field("unique_id")
     private String uniqueId;
 
-    @Column(name = "full_name", nullable = false)
+    @Field("full_name")
     private String fullName;
 
-    @Column(name = "age", nullable = false)
     private Integer age;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "gender", nullable = false)
     private Gender gender;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "blood_group")
+    @Field("blood_group")
     private BloodGroup bloodGroup;
 
-    @Column(name = "mobile_number", nullable = false)
+    @Field("mobile_number")
     private String mobileNumber;
 
-    @Column(name = "address", columnDefinition = "TEXT")
     private String address;
 
-    @Column(name = "emergency_contact_name")
+    @Field("emergency_contact_name")
     private String emergencyContactName;
 
-    @Column(name = "emergency_contact_phone")
+    @Field("emergency_contact_phone")
     private String emergencyContactPhone;
 
-    @Column(name = "abha_number")
+    @Field("abha_number")
     private String abhaNumber;
 
-    @Column(name = "pmjay_id")
+    @Field("pmjay_id")
     private String pmjayId;
 
-    @Column(name = "is_pmjay_eligible")
+    @Field("is_pmjay_eligible")
     private Boolean isPmjayEligible = false;
 
-    @Column(name = "registration_date")
-    private LocalDateTime registrationDate;
+    @Field("registration_date")
+    private LocalDateTime registrationDate = LocalDateTime.now();
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @Field("created_at")
+    private LocalDateTime createdAt = LocalDateTime.now();
 
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-        registrationDate = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
+    @Field("updated_at")
+    private LocalDateTime updatedAt = LocalDateTime.now();
 
     // -----------------------------------------------
     // Gender Enum
@@ -104,8 +78,8 @@ public class Patient {
     // -----------------------------------------------
     // Getters and Setters
     // -----------------------------------------------
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
     public String getUniqueId() { return uniqueId; }
     public void setUniqueId(String uniqueId) { this.uniqueId = uniqueId; }

@@ -2,58 +2,42 @@ package medidoc.model;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-@Entity
-@Table(name = "ambulances")
+@Document(collection = "ambulances")
 public class Ambulance {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(name = "vehicle_number", nullable = false, unique = true)
+    @Field("vehicle_number")
     private String vehicleNumber;
 
-    @Column(name = "driver_name")
+    @Field("driver_name")
     private String driverName;
 
-    @Column(name = "driver_mobile")
+    @Field("driver_mobile")
     private String driverMobile;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "ambulance_type")
+    @Field("ambulance_type")
     private AmbulanceType ambulanceType = AmbulanceType.BASIC;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status")
     private Status status = Status.AVAILABLE;
 
-    @Column(name = "current_location")
+    @Field("current_location")
     private String currentLocation;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-    }
+    @Field("created_at")
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     public enum AmbulanceType { BASIC, ADVANCED, NEONATAL, MORTUARY }
     public enum Status { AVAILABLE, ON_DUTY, MAINTENANCE }
 
     // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
     public String getVehicleNumber() { return vehicleNumber; }
     public void setVehicleNumber(String vehicleNumber) { this.vehicleNumber = vehicleNumber; }

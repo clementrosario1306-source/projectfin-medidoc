@@ -49,7 +49,7 @@ public class AlertController {
 
     @PutMapping("/{id}/deactivate")
     public ResponseEntity<ApiResponse> deactivateAlert(
-            @PathVariable Long id) {
+            @PathVariable String id) {
         try {
             Alert alert = alertService.deactivateAlert(id);
             return ResponseEntity.ok(ApiResponse.success(

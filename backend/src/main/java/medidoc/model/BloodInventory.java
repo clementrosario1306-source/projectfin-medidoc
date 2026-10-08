@@ -1,34 +1,28 @@
 package medidoc.model;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "blood_inventory")
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+@Document(collection = "blood_inventory")
 public class BloodInventory {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "blood_group", nullable = false, unique = true)
+    @Field("blood_group")
     private BloodGroup bloodGroup;
 
-    @Column(name = "units_available")
+    @Field("units_available")
     private Integer unitsAvailable = 0;
 
-    @Column(name = "units_reserved")
+    @Field("units_reserved")
     private Integer unitsReserved = 0;
 
-    @Column(name = "last_updated")
-    private LocalDateTime lastUpdated;
-
-    @PreUpdate
-    @PrePersist
-    protected void onUpdate() {
-        lastUpdated = LocalDateTime.now();
-    }
+    @Field("last_updated")
+    private LocalDateTime lastUpdated = LocalDateTime.now();
 
     public enum BloodGroup {
         A_POSITIVE, A_NEGATIVE,
@@ -38,8 +32,8 @@ public class BloodInventory {
     }
 
     // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
     public BloodGroup getBloodGroup() { return bloodGroup; }
     public void setBloodGroup(BloodGroup bloodGroup) { this.bloodGroup = bloodGroup; }

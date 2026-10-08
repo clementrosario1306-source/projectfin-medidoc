@@ -43,7 +43,7 @@ public class AmbulanceService {
     }
 
     // ASSIGN AMBULANCE TO REQUEST
-    public AmbulanceRequest assignAmbulance(Long requestId, Long ambulanceId) {
+    public AmbulanceRequest assignAmbulance(String requestId, String ambulanceId) {
 
         Optional<AmbulanceRequest> requestOpt =
             ambulanceRequestRepository.findById(requestId);
@@ -73,7 +73,7 @@ public class AmbulanceService {
     }
 
     // UPDATE AMBULANCE REQUEST STATUS
-    public AmbulanceRequest updateRequestStatus(Long requestId, String status) {
+    public AmbulanceRequest updateRequestStatus(String requestId, String status) {
 
         Optional<AmbulanceRequest> requestOpt =
             ambulanceRequestRepository.findById(requestId);

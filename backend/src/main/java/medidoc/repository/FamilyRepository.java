@@ -1,13 +1,14 @@
 package medidoc.repository;
 
-import medidoc.model.FamilyMember;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 import java.util.List;
 
-@Repository
-public interface FamilyRepository
-        extends JpaRepository<FamilyMember, Long> {
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
-    List<FamilyMember> findByPrimaryPatientId(Long primaryPatientId);
+import medidoc.model.FamilyMember;
+
+@Repository
+public interface FamilyRepository extends MongoRepository<FamilyMember, String> {
+
+    List<FamilyMember> findByPrimaryPatientId(String primaryPatientId);
 }

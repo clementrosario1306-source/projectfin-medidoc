@@ -67,7 +67,7 @@ public class BloodBankService {
     // REQUEST BLOOD
     public BloodRequest requestBlood(String bloodGroup,
             Integer units, String priority, String purpose,
-            Long patientId) {
+            String patientId) {
 
         BloodInventory.BloodGroup bg =
             BloodInventory.BloodGroup.valueOf(bloodGroup.toUpperCase());
@@ -90,7 +90,7 @@ public class BloodBankService {
 
     // ISSUE BLOOD TO PATIENT
     public BloodInventory issueBlood(String bloodGroup, Integer units,
-            Long requestId) {
+            String requestId) {
 
         BloodInventory.BloodGroup bg =
             BloodInventory.BloodGroup.valueOf(bloodGroup.toUpperCase());

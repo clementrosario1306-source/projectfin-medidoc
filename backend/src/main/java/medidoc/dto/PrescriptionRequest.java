@@ -6,19 +6,19 @@ public class PrescriptionRequest {
 
     private String patientUniqueId;
     private String doctorId;
-    private Long historyId;
+    private String historyId;
     private String notes;
     private List<MedicineItem> medicines;
 
     public static class MedicineItem {
-        private Long medicineId;
+        private String medicineId;
         private String dosage;
         private String frequency;
         private Integer durationDays;
         private String instructions;
 
-        public Long getMedicineId() { return medicineId; }
-        public void setMedicineId(Long medicineId) { this.medicineId = medicineId; }
+        public String getMedicineId() { return medicineId; }
+        public void setMedicineId(String medicineId) { this.medicineId = medicineId; }
 
         public String getDosage() { return dosage; }
         public void setDosage(String dosage) { this.dosage = dosage; }
@@ -40,8 +40,8 @@ public class PrescriptionRequest {
     public String getDoctorId() { return doctorId; }
     public void setDoctorId(String doctorId) { this.doctorId = doctorId; }
 
-    public Long getHistoryId() { return historyId; }
-    public void setHistoryId(Long historyId) { this.historyId = historyId; }
+    public String getHistoryId() { return historyId; }
+    public void setHistoryId(String historyId) { this.historyId = historyId; }
 
     public String getNotes() { return notes; }
     public void setNotes(String notes) { this.notes = notes; }

@@ -102,7 +102,7 @@ public class PrescriptionService {
 
     // GET MEDICINES FOR A PRESCRIPTION
     public List<PrescriptionMedicine> getPrescriptionMedicines(
-            Long prescriptionId) {
+            String prescriptionId) {
         return prescriptionMedicineRepository
             .findByPrescriptionId(prescriptionId);
     }

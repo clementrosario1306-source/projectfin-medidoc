@@ -53,8 +53,8 @@ public class AmbulanceController {
 
     @PutMapping("/assign")
     public ResponseEntity<ApiResponse> assignAmbulance(
-            @RequestParam Long requestId,
-            @RequestParam Long ambulanceId) {
+            @RequestParam String requestId,
+            @RequestParam String ambulanceId) {
         try {
             AmbulanceRequest request =
                 ambulanceService.assignAmbulance(requestId, ambulanceId);
@@ -68,7 +68,7 @@ public class AmbulanceController {
 
     @PutMapping("/{requestId}/status")
     public ResponseEntity<ApiResponse> updateStatus(
-            @PathVariable Long requestId,
+            @PathVariable String requestId,
             @RequestParam String status) {
         try {
             AmbulanceRequest request =

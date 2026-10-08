@@ -4,70 +4,48 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
-import jakarta.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-@Entity
-@Table(name = "medicines")
+@Document(collection = "medicines")
 public class Medicine {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "generic_name")
+    @Field("generic_name")
     private String genericName;
 
-    @Column(name = "category")
     private String category;
 
-    @Column(name = "unit")
     private String unit;
 
-    @Column(name = "stock_quantity")
+    @Field("stock_quantity")
     private Integer stockQuantity = 0;
 
-    @Column(name = "min_stock_level")
+    @Field("min_stock_level")
     private Integer minStockLevel = 10;
 
-    @Column(name = "price_per_unit")
+    @Field("price_per_unit")
     private BigDecimal pricePerUnit = BigDecimal.ZERO;
 
-    @Column(name = "expiry_date")
+    @Field("expiry_date")
     private LocalDate expiryDate;
 
-    @Column(name = "manufacturer")
     private String manufacturer;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @Field("created_at")
+    private LocalDateTime createdAt = LocalDateTime.now();
 
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
+    @Field("updated_at")
+    private LocalDateTime updatedAt = LocalDateTime.now();
 
     // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }

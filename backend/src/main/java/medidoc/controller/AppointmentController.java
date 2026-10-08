@@ -94,7 +94,7 @@ public class AppointmentController {
     // PUT /api/appointments/{id}/status
     @PutMapping("/{id}/status")
     public ResponseEntity<ApiResponse> updateStatus(
-            @PathVariable Long id,
+            @PathVariable String id,
             @RequestParam String status) {
         try {
             Appointment appt =

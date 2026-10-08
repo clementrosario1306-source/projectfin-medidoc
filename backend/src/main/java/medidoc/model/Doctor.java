@@ -2,83 +2,54 @@ package medidoc.model;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
-import jakarta.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-@Entity
-@Table(name = "doctors")
+@Document(collection = "doctors")
 public class Doctor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(name = "doctor_id", nullable = false, unique = true)
+    @Field("doctor_id")
     private String doctorId;
 
-    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "specialization", nullable = false)
     private String specialization;
 
-    @Column(name = "department", nullable = false)
     private String department;
 
-    @Column(name = "mobile")
     private String mobile;
 
-    @Column(name = "email")
     private String email;
 
-    @Column(name = "qualification")
     private String qualification;
 
-    @Column(name = "experience_years")
+    @Field("experience_years")
     private Integer experienceYears = 0;
 
-    @Column(name = "schedule", columnDefinition = "TEXT")
     private String schedule;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status")
     private Status status = Status.ACTIVE;
 
-    @Column(name = "employee_password", nullable = false)
+    @Field("employee_password")
     private String employeePassword;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @Field("created_at")
+    private LocalDateTime createdAt = LocalDateTime.now();
 
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
+    @Field("updated_at")
+    private LocalDateTime updatedAt = LocalDateTime.now();
 
     public enum Status {
         ACTIVE, INACTIVE, ON_LEAVE
     }
 
     // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
     public String getDoctorId() { return doctorId; }
     public void setDoctorId(String doctorId) { this.doctorId = doctorId; }

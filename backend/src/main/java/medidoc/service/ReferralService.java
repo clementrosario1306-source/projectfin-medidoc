@@ -1,15 +1,17 @@
 package medidoc.service;
 
-import medidoc.model.Patient;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import medidoc.model.Doctor;
+import medidoc.model.Patient;
 import medidoc.model.Referral;
 import medidoc.repository.DoctorRepository;
 import medidoc.repository.PatientRepository;
 import medidoc.repository.ReferralRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ReferralService {
@@ -72,7 +74,7 @@ public class ReferralService {
     }
 
     // UPDATE REFERRAL STATUS
-    public Referral updateStatus(Long id, String status) {
+    public Referral updateStatus(String id, String status) {
         Optional<Referral> referralOpt = referralRepository.findById(id);
         if (referralOpt.isEmpty()) {
             throw new RuntimeException("Referral not found: " + id);

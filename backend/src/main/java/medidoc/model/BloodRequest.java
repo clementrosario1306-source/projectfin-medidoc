@@ -2,74 +2,55 @@ package medidoc.model;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-@Entity
-@Table(name = "blood_requests")
+@Document(collection = "blood_requests")
 public class BloodRequest {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(name = "patient_id")
-    private Long patientId;
+    @Field("patient_id")
+    private String patientId;
 
-    @Column(name = "requested_by")
-    private Long requestedBy;
+    @Field("requested_by")
+    private String requestedBy;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "blood_group", nullable = false)
+    @Field("blood_group")
     private BloodInventory.BloodGroup bloodGroup;
 
-    @Column(name = "units_required", nullable = false)
+    @Field("units_required")
     private Integer unitsRequired;
 
-    @Column(name = "units_issued")
+    @Field("units_issued")
     private Integer unitsIssued = 0;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "priority")
     private Priority priority = Priority.NORMAL;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status")
     private Status status = Status.PENDING;
 
-    @Column(name = "purpose", columnDefinition = "TEXT")
     private String purpose;
 
-    @Column(name = "requested_at")
-    private LocalDateTime requestedAt;
+    @Field("requested_at")
+    private LocalDateTime requestedAt = LocalDateTime.now();
 
-    @Column(name = "issued_at")
+    @Field("issued_at")
     private LocalDateTime issuedAt;
-
-    @PrePersist
-    protected void onCreate() {
-        requestedAt = LocalDateTime.now();
-    }
 
     public enum Priority { NORMAL, URGENT, EMERGENCY }
     public enum Status { PENDING, APPROVED, ISSUED, REJECTED, CANCELLED }
 
     // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
-    public Long getPatientId() { return patientId; }
-    public void setPatientId(Long patientId) { this.patientId = patientId; }
+    public String getPatientId() { return patientId; }
+    public void setPatientId(String patientId) { this.patientId = patientId; }
 
-    public Long getRequestedBy() { return requestedBy; }
-    public void setRequestedBy(Long requestedBy) { this.requestedBy = requestedBy; }
+    public String getRequestedBy() { return requestedBy; }
+    public void setRequestedBy(String requestedBy) { this.requestedBy = requestedBy; }
 
     public BloodInventory.BloodGroup getBloodGroup() { return bloodGroup; }
     public void setBloodGroup(BloodInventory.BloodGroup bloodGroup) { this.bloodGroup = bloodGroup; }
