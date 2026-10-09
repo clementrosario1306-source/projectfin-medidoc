@@ -3,9 +3,8 @@
    Reusable fetch() helper used across every page.
    ========================================================== */
 
-// IMPORTANT: change this if your Spring Boot server runs on a
-// different port. Default Spring Boot port is 8080.
-const API_BASE_URL = "http://localhost:8080";
+// Backend deployed on Render — https://projectfin-medidoc-4.onrender.com
+const API_BASE_URL = "https://projectfin-medidoc-4.onrender.com";
 
 /**
  * Generic API call function.
